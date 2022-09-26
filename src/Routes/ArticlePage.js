@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArticleContext } from '../ArticleContext';
 import Comments from '../Components/Comments';
-import dummyArticles from '../dummyArticles';
-import { dummyComments } from '../dummyComments';
+import dummyArticles from '../assets/dummy_files/dummyArticles';
+import { dummyComments } from '../assets/dummy_files/dummyComments';
 
 export default function ArticlePage() {
     let params = useParams();

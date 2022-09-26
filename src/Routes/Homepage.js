@@ -2,7 +2,7 @@ import '../Styles/Homepage.scss';
 import React, { useContext, useEffect } from 'react';
 import { ArticleContext } from '../ArticleContext';
 import ArticleListItem from '../Components/ArticleListItem';
-import dummyArticles from '../dummyArticles';
+import dummyArticles from '../assets/dummy_files/dummyArticles';
 
 export default function Homepage() {
 

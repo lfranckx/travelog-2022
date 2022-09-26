@@ -1,11 +1,14 @@
 import './Styles/App.scss';
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import Homepage from './Routes/Homepage';
 import Header from './Components/Header';
 import ArticlePage from './Routes/ArticlePage';
+
 import TokenService from './Services/TokenService';
 import IdleService from './Services/IdleService';
+import AuthApiService from './Services/AuthApiService';
 
 
 function App() {
@@ -17,8 +20,13 @@ function App() {
     if (TokenService.hasAuthToken()) {
       IdleService.registerIdleTimerResets();
       TokenService.queueCallbackBeforeExpiry(() => {
-        
+        AuthApiService.postRefreshToken();
       })
+    }
+
+    return () => {
+      IdleService.unRegisterIdleResets();
+      TokenService.clearCallbackBeforeExpiry();
     }
   }, []);
 
