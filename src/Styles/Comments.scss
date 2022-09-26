@@ -1,0 +1,19 @@
+.comment-list_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .user_link {
+        text-align: center;
+        width: 100px;
+        .img_wrap {
+            // display: flex;
+            img { max-width: 48px; }
+        }
+    }
+
+    .comment {
+        width: 80%;
+    }
+}
+
