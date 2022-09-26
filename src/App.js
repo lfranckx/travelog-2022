@@ -14,10 +14,19 @@ function App() {
   useEffect(() => {
     localStorage.clear();
     IdleService.setIdleCallback(logoutFromIdle);
+    if (TokenService.hasAuthToken()) {
+      IdleService.registerIdleTimerResets();
+      TokenService.queueCallbackBeforeExpiry(() => {
+        
+      })
+    }
   }, []);
 
   const logoutFromIdle = () => {
     TokenService.clearAuthToken();
+    TokenService.clearCallbackBeforeExpiry();
+    IdleService.unRegisterIdleResets();
+    setLoggedIn(false);
   }
 
   return (
