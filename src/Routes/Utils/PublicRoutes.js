@@ -2,11 +2,10 @@ import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import TokenService from '../../Services/TokenService';
 
-export default function PrivateRoutes() {
+export default function PublicOnlyRoutes() {
     return (
         TokenService.hasAuthToken()
-            ? <Outlet />
-            : <Navigate 
-                to={'/'} />
-    );
+            ? <Navigate to={'/'} />
+            : <Outlet />
+    )
 }

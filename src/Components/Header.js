@@ -58,11 +58,11 @@ export default function Header() {
         return (
             <ul className='navlinks_list'>
                 <li className='btn-wrap'>
-                    <Link className='btn'>Login</Link>
+                    <Link to='/login' className='btn'>Login</Link>
                 </li>
                 
                 <li className='btn-wrap'>
-                    <Link className='btn-secondary'>Join</Link>
+                    <Link to='/sign-up' className='btn-secondary'>Join</Link>
                 </li>
             </ul>
         )
