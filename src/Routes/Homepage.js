@@ -5,7 +5,6 @@ import ArticleListItem from '../Components/ArticleListItem';
 import dummyArticles from '../assets/dummy_files/dummyArticles';
 
 export default function Homepage() {
-
     const { error, setError, articlesList, setArticlesList } = useContext(ArticleContext);
     
     useEffect(() => {

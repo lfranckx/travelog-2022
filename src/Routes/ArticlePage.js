@@ -31,11 +31,11 @@ export default function ArticlePage() {
                 <section className='section_content'>
                     <div className='section_title'>
                         <h2>{article.title}</h2>
-                        <Link to={`/author/${article.username}`}>
-                            <div className='image_wrap'>
+                        <div className='img_wrap'>
+                            <Link to={`/author/${article.username}`}>
                                 <img src={article.profile_image} alt='Profile Image' className='profile_image' />
-                            </div>
-                        </Link>
+                            </Link>
+                        </div>
                         <h3>Article written by <Link to={`/author/${article.username}`}>{article.author}</Link></h3>
                     </div>
                     <div className='article_body'>
