@@ -11,7 +11,6 @@ export const ArticleProvider = ({ children }) => {
     const [articlesList, setArticlesList] = useState([]);
     const [authorsList, setAuthorsList] = useState([]);
     const [usersArticles, setUsersArticles] = useState([]);
-    const [file, setFile] = useState(null);
 
     const value = {
         error: error,
@@ -22,7 +21,6 @@ export const ArticleProvider = ({ children }) => {
         articlesList: articlesList,
         authorsList: authorsList,
         usersArticles: usersArticles,
-        file: file,
         setError: setError,
         setArticle: setArticle,
         setAuthor: setAuthor,
@@ -31,7 +29,6 @@ export const ArticleProvider = ({ children }) => {
         setArticlesList: setArticlesList,
         setAuthorsList: setAuthorsList,
         setUsersArticles: setUsersArticles,
-        setFile: setFile
     }
 
     return (
