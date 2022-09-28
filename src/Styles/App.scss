@@ -23,13 +23,13 @@ p {
     margin: 0 0 8px;
     padding: 0;
     line-height: 1.2rem;
-    font-family: 'Lato', serif;
+    font-family: 'Lato', sans-serif;
     color: $primary;
 }
 
 a {
     text-decoration: none;
-    font-family: 'Lato', serif;
+    font-family: 'Lato', sans-serif;
     color: $secondary;
     margin: 0 0 8px;
     font-weight: 400;
@@ -54,9 +54,9 @@ label, input, textarea, button {
     margin-bottom: 8px;
 }
 
-input {
-    background: $white;
+input, textarea {
     border: $gray;
+    background: $gray;
     border-radius: 4px; 
 }
 
@@ -76,6 +76,10 @@ main {
     background-color: $white;
     box-shadow: 4px 4px 4px $overlay;
     padding: 20px 40px;
+
+    @media screen and (max-width: 600px) {
+        padding: 20px;
+    }
 }
 
 .section_title {
@@ -113,6 +117,11 @@ main {
         color: $secondary;
         text-decoration: none;
     }
+}
+
+.error {
+    font-family: "Lato", sans-serif;
+    color: $secondary
 }
 
 /* Loader Aninimation */
