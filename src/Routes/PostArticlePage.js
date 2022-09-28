@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ArticleContext } from '../ArticleContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import FileInput from '../Components/FileInput';
 
 export default function PostArticlePage() {
     const [error, setError] = useState(null);
@@ -63,67 +64,75 @@ export default function PostArticlePage() {
                 initialValues={{ file: '', title: '', description: '', body: ''}} 
                 validationSchema={postSchema}
                 onSubmit={handleSubmitPost}
-            >
-                <Form id='form'>
-                    <div className='field_wrap post_article__fieldset'>
-                        <label htmlFor='file'>Select an image to upload</label>
-                        <Field 
-                            type='file'
-                            accept='.png, .jpg, .jpeg, .jpeg, .gif'
-                            name='file'
-                            aria-label='file'
-                            className='file'
-                            id='file'
-                            onChange={handleFileChange}
-                        />
-                        <ErrorMessage component="div" className='error' name='file' />
-                    </div>
+                render={({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    setFieldValue,
+                    handleBlur,
+                    isValid,
+                    handleSubmit,
+                    isSubmitting
+                }) => (
+                    <Form id='form'>
+                        <div className='field_wrap post_article__fieldset'>
+                            <label htmlFor='file'>Select an image to upload</label>
+                            <Field 
+                                name='file'
+                                component={FileInput}
+                                title='Upload'
+                                setFieldValue={setFieldValue}
+                                handleBlur={handleBlur}
+                            />
+                            <ErrorMessage component="div" className='error' name='file' />
+                        </div>
 
-                    <div className='field_wrap post_article__fieldset'>
-                        <label htmlFor='title'>What is the title of your article?</label>
-                        <Field 
-                            type='text'
-                            name='title'
-                            aria-label='title'
-                            className='title'
-                            placeholder='Title'
-                        />
-                        <ErrorMessage component="div" className='error' name='title' />
-                    </div>
+                        <div className='field_wrap post_article__fieldset'>
+                            <label htmlFor='title'>What is the title of your article?</label>
+                            <Field 
+                                type='text'
+                                name='title'
+                                aria-label='title'
+                                className='title'
+                                placeholder='Title'
+                            />
+                            <ErrorMessage component="div" className='error' name='title' />
+                        </div>
 
-                    <div className='field_wrap post_article__fieldset'>
-                        <label htmlFor='description'>Write a short description</label>
-                        <Field 
-                            type='text'
-                            name='description'
-                            aria-label='description'
-                            className='description'
-                            placeholder='Describe what your article is about'
-                        />
-                        <ErrorMessage component="div" className='error' name='description' />
-                    </div>
+                        <div className='field_wrap post_article__fieldset'>
+                            <label htmlFor='description'>Write a short description</label>
+                            <Field 
+                                type='text'
+                                name='description'
+                                aria-label='description'
+                                className='description'
+                                placeholder='Describe what your article is about'
+                            />
+                            <ErrorMessage component="div" className='error' name='description' />
+                        </div>
 
-                    <div className='field_wrap post_article__fieldset'>
-                        <label htmlFor='body'>Tell your story...</label>
-                        <Field
-                            as='textarea'
-                            rows='20'
-                            name="body"
-                            aria-label='body'
-                            className='body'
-                            placeholder='Start here'
-                        />
-                        <ErrorMessage component="div" className='error' name='body' />
-                    </div>
+                        <div className='field_wrap post_article__fieldset'>
+                            <label htmlFor='body'>Tell your story...</label>
+                            <Field
+                                as='textarea'
+                                rows='20'
+                                name="body"
+                                aria-label='body'
+                                className='body'
+                                placeholder='Start here'
+                            />
+                            <ErrorMessage component="div" className='error' name='body' />
+                        </div>
 
-                    <div className='field_wrap .btn_wrap'>
-                        <button className='btn-secondary' type='submit'>Submit</button>
-                    </div>
+                        <div className='field_wrap .btn_wrap'>
+                            <button className='btn-secondary' type='submit'>Submit</button>
+                        </div>
 
-                    {error && <div role={'alert'}><h2 className='error'>{error}</h2></div>}
-                </Form>
-            </Formik>
-            
+                        {error && <div role={'alert'}><h2 className='error'>{error}</h2></div>}
+                    </Form>
+                )}
+            />
         </section>
     )
 }
