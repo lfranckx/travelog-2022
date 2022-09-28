@@ -86,6 +86,12 @@ main {
     text-align: center;
 }
 
+.article_list_item {
+    margin: 20px 0; 
+    padding: 8px; 
+    border-bottom: solid 1px $gray;
+}
+
 .btn {
     padding: 4px 12px;
     border: solid 1px $primary;

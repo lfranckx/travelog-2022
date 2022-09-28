@@ -42,6 +42,9 @@ export default function SignUpPage() {
                     })
                 })
             })
+            .catch(res => {
+                setError(res.error);
+            });
     }
 
     const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^a-zA-Z]).{8,}/;

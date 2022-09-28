@@ -1,4 +1,3 @@
-import '../Styles/Homepage.scss';
 import React, { useContext, useEffect } from 'react';
 import { ArticleContext } from '../ArticleContext';
 import ArticleListItem from '../Components/ArticleListItem';

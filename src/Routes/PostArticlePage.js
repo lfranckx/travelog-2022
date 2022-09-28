@@ -3,18 +3,22 @@ import { ArticleContext } from '../ArticleContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import FileInput from '../Components/FileInput';
+import ArticleApiService from '../Services/ArticleApiService';
+import { useNavigate } from 'react-router-dom';
 
 export default function PostArticlePage() {
     const [error, setError] = useState(null);
-    const { user } = useContext(ArticleContext);
+    const { user, setArticle, setUserArticles } = useContext(ArticleContext);
+    const navigate = useNavigate()
 
     const handleSubmitPost = async(values) => {
         setError(null);
         console.log(values);
 
-        const { file, title, description, body } = values;
-        console.log('file', file);
-        
+        const { image, title, description, body } = values;
+
+        console.log(image);
+
         const newArticle = {
             title: title,
             description: description,
@@ -24,17 +28,45 @@ export default function PostArticlePage() {
             image_url: "",
             profile_image: user.profile_image
         }
+
+        ArticleApiService.postArticle(newArticle)
+        .then(res => {
+            ArticleApiService.getArticle(res.id)
+            .then(article => {
+                setArticle(article);
+                if (image) {
+                    ArticleApiService.uploadFile(image)
+                    .then(res => {
+                        (!res.ok)
+                            ? res.json().then(e => Promise.reject(e))
+                            : res.json()
+                        .then(data => {
+                            article.image_url = data.image_url;
+                            ArticleApiService.updateArticle(article)
+                            .then(setArticle(article))
+                            .then(
+                                ArticleApiService.getByUsername(user.username)
+                                .then(setUserArticles)
+                            )
+                            .catch(setError);
+                        })
+                    })
+                }
+            })
+        })
+        .then(navigate('/'))
+        .catch(setError);
     }
 
-    const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+    // const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
     const postSchema = Yup.object().shape({
-        // file: Yup.mixed()
-        //     .test('fileSize', 'File is too large. Max 1 MB', value => value && value.size <= 1000000)
-        //     .test('fileType', 'Incorrect file type. Acceptable formats are .png, .jpg, .jpeg, and .gif.', value => {
-        //         SUPPORTED_FORMATS.includes(value.type);
-        //     })
-        //     .required('You need to provide an image file.'),
+        image: Yup.mixed()
+            .test('fileSize', 'File is too large. Max 1 MB', value => value && value.size <= 1000000)
+            // .test('fileType', 'Incorrect file type. Acceptable formats are .png, .jpg, .jpeg, and .gif.', value => {
+            //     SUPPORTED_FORMATS.includes(value.type);
+            // })
+            .required('You need to provide an image file.'),
         title: Yup.string()
             .min(4, '* Title is too short. Minimum 4 characters.')
             .max(300, '* Title is too long.')
@@ -56,26 +88,18 @@ export default function PostArticlePage() {
                 initialValues={{ file: '', title: '', description: '', body: ''}} 
                 validationSchema={postSchema}
                 onSubmit={handleSubmitPost}
-                render={({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    setFieldValue,
-                    handleBlur,
-                    isValid,
-                    handleSubmit,
-                    isSubmitting
-                }) => (
+            >
+                {props => (
                     <Form id='form'>
                         <div className='field_wrap post_article__fieldset'>
                             <label htmlFor='file'>Select an image to upload</label>
                             <Field 
-                                name='file'
+                                name='image'
                                 component={FileInput}
                                 title='Upload'
-                                setFieldValue={setFieldValue}
-                                handleBlur={handleBlur}
+                                setFieldValue={props.setFieldValue}
+                                touched={props.touched}
+                                onBlur={props.handleBlur}
                             />
                             <ErrorMessage component="div" className='error' name='file' />
                         </div>
@@ -124,7 +148,8 @@ export default function PostArticlePage() {
                         {error && <div role={'alert'}><h2 className='error'>{error}</h2></div>}
                     </Form>
                 )}
-            />
+            </Formik>
+            
         </section>
     )
 }

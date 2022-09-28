@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ArticleContext } from '../ArticleContext';
+import { ArticleContext } from '../../ArticleContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -33,15 +33,15 @@ export default function PostArticlePage() {
         console.log('handleFileChange', fileChange);
     }
 
-    const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+    // const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
     const postSchema = Yup.object().shape({
-        // file: Yup.mixed()
-        //     .test('fileSize', 'File is too large. Max 1 MB', value => value && value.size <= 1000000)
-        //     .test('fileType', 'Incorrect file type. Acceptable formats are .png, .jpg, .jpeg, and .gif.', value => {
-        //         SUPPORTED_FORMATS.includes(value.type);
-        //     })
-        //     .required('You need to provide an image file.'),
+        file: Yup.mixed()
+            .test('fileSize', 'File is too large. Max 1 MB', value => value && value.size <= 1000000)
+            // .test('fileType', 'Incorrect file type. Acceptable formats are .png, .jpg, .jpeg, and .gif.', value => {
+            //     SUPPORTED_FORMATS.includes(value.type);
+            // })
+            .required('You need to provide an image file.'),
         title: Yup.string()
             .min(4, '* Title is too short. Minimum 4 characters.')
             .max(300, '* Title is too long.')

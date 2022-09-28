@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { ArticleContext } from '../ArticleContext';
+import { ArticleContext } from '../../ArticleContext';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import FileInput from '../Components/FileInput';
+import FileInput from '../../Components/FileInput';
 
 export default function PostArticlePage() {
     const [error, setError] = useState(null);
@@ -13,6 +13,8 @@ export default function PostArticlePage() {
         console.log(values);
 
         const { file, title, description, body } = values;
+        console.log('file', file);
+
         const newArticle = {
             title: title,
             description: description,
@@ -24,14 +26,14 @@ export default function PostArticlePage() {
         }
     }
 
-    const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
+    // const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
     const postSchema = Yup.object().shape({
         file: Yup.mixed()
             .test('fileSize', 'File is too large. Max 1 MB', value => value && value.size <= 1000000)
-            .test('fileType', 'Incorrect file type. Acceptable formats are .png, .jpg, .jpeg, and .gif.', value => {
-                SUPPORTED_FORMATS.includes(value.type);
-            })
+            // .test('fileType', 'Incorrect file type. Acceptable formats are .png, .jpg, .jpeg, and .gif.', value => {
+            //     SUPPORTED_FORMATS.includes(value.type);
+            // })
             .required('You need to provide an image file.'),
         title: Yup.string()
             .min(4, '* Title is too short. Minimum 4 characters.')
@@ -54,8 +56,7 @@ export default function PostArticlePage() {
                 initialValues={{ file: '', title: '', description: '', body: ''}} 
                 validationSchema={postSchema}
                 onSubmit={handleSubmitPost}
-            >
-                {(
+                render={({
                     values,
                     errors,
                     touched,
@@ -65,7 +66,8 @@ export default function PostArticlePage() {
                     isValid,
                     handleSubmit,
                     isSubmitting
-                    ) => <Form id='form'>
+                }) => (
+                    <Form id='form'>
                         <div className='field_wrap post_article__fieldset'>
                             <label htmlFor='file'>Select an image to upload</label>
                             <Field 
@@ -120,8 +122,9 @@ export default function PostArticlePage() {
                         </div>
 
                         {error && <div role={'alert'}><h2 className='error'>{error}</h2></div>}
-                    </Form>}
-            </Formik>
+                    </Form>
+                )}
+            />
         </section>
     )
 }
